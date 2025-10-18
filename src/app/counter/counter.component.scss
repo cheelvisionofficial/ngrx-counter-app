@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+      /* Added a small reset to ensure the host element covers the whole area */
+      * {
+        box-sizing: border-box;
+      }
+      :host {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        width: 100vw; /* Ensure full width */
+        background-color: #1f2937;
+        font-family: 'Inter', sans-serif;
+        color: white;
+      }
+      .gradient-text {
+         background-image: linear-gradient(to right, #ec4899, #6366f1);
+         -webkit-background-clip: text;
+         -webkit-text-fill-color: transparent;
+      }

@@ -1,0 +1,75 @@
+<div class="bg-gray-800 p-8 md:p-12 rounded-xl shadow-2xl w-full max-w-lg space-y-8 border-t-4 border-pink-500">
+  
+  <!-- Title -->
+  <h1 class="text-3xl font-extrabold text-white text-center">
+    NgRx Counter Flow (Feature Selector Pattern)
+  </h1>
+  <p class="text-center text-sm text-pink-300">
+    (Selector pehle feature slice nikalta hai, phir data read karta hai)
+  </p>
+
+  <!-- Counter Display + Loader + Error -->
+  <div class="relative flex justify-center items-center h-48 bg-gray-900 rounded-lg shadow-inner">
+    <ng-container *ngIf="isLoading$ | async; else notLoading">
+      <div class="text-pink-400 text-xl animate-pulse flex flex-col items-center">
+        <svg class="animate-spin -ml-1 mr-3 h-8 w-8 text-pink-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Loading Initial Value...
+      </div>
+    </ng-container>
+
+    <ng-template #notLoading>
+      <ng-container *ngIf="error$ | async as error; else showCount">
+        <div class="text-red-400 text-lg p-4 bg-red-900/50 rounded-lg border border-red-500">
+          ERROR: {{ error }}
+        </div>
+      </ng-container>
+
+      <ng-template #showCount>
+        <span class="text-8xl font-black transition-all duration-300 ease-out gradient-text">
+          {{ count$ | async }}
+        </span>
+      </ng-template>
+    </ng-template>
+  </div>
+
+  <!-- Buttons -->
+  <div class="grid grid-cols-3 gap-4">
+    <button 
+      (click)="handleDecrement()" 
+      [disabled]="isLoading$ | async"
+      class="col-span-1 p-3 text-lg font-bold bg-pink-600 hover:bg-pink-700 disabled:bg-pink-800/50 text-white rounded-lg transition duration-200 shadow-lg shadow-pink-900/50">
+      Decrement
+    </button>
+
+    <button 
+      (click)="handleReset()" 
+      [disabled]="isLoading$ | async"
+      class="col-span-1 p-3 text-lg font-bold bg-gray-600 hover:bg-gray-700 disabled:bg-gray-700/50 text-white rounded-lg transition duration-200 shadow-lg shadow-gray-900/50">
+      Reset
+    </button>
+
+    <button 
+      (click)="handleIncrement()" 
+      [disabled]="isLoading$ | async"
+      class="col-span-1 p-3 text-lg font-bold bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-800/50 text-white rounded-lg transition duration-200 shadow-lg shadow-indigo-900/50">
+      Increment
+    </button>
+  </div>
+
+  <!-- Async Load Button -->
+  <div class="pt-4 border-t border-gray-700/50">
+    <button 
+      (click)="handleLoadValue()" 
+      [disabled]="isLoading$ | async"
+      class="w-full p-3 font-semibold text-center text-sm rounded-lg bg-yellow-600 hover:bg-yellow-700 disabled:bg-yellow-800/50 text-gray-900 transition duration-200">
+      {{ (isLoading$ | async) ? 'Loading...' : 'Trigger Async Load (Effect)' }}
+    </button>
+    <p class="mt-2 text-xs text-center text-gray-400">
+      (Simulates fetching a random initial value from a server.)
+    </p>
+  </div>
+
+</div>
